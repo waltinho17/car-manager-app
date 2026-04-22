@@ -12,66 +12,78 @@
       --green: #22c55e; --yellow: #eab308; --red: #ef4444;
       --text: #e2e8f0; --muted: #64748b;
     }
-    body { background: var(--bg); color: var(--text); font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif; font-size: 15px; line-height: 1.6; min-height: 100vh; padding: 0 0 80px; }
+    body { background: var(--bg); color: var(--text); font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif; font-size: 15px; line-height: 1.6; min-height: 100vh; padding-bottom: 100px; }
 
-    /* Header */
     header { background: var(--surface); border-bottom: 1px solid var(--border); padding: 16px 20px; display: flex; align-items: center; gap: 12px; position: sticky; top: 0; z-index: 10; }
     .h-icon { width: 32px; height: 32px; background: var(--accent); border-radius: 8px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
     .h-icon svg { width: 18px; height: 18px; fill: #fff; }
     .h-title { font-size: 16px; font-weight: 600; }
     .h-sub { font-size: 11px; color: var(--muted); }
 
-    /* Form */
+    /* Tabs */
+    .tabs { display: flex; background: var(--surface); border-bottom: 1px solid var(--border); }
+    .tab { flex: 1; padding: 13px; text-align: center; font-size: 13px; font-weight: 600; color: var(--muted); cursor: pointer; border-bottom: 2px solid transparent; transition: all 0.15s; }
+    .tab.active { color: var(--accent2); border-bottom-color: var(--accent); }
+
+    /* Forms */
+    .tab-content { display: none; }
+    .tab-content.active { display: block; }
     .form-wrap { padding: 20px; display: flex; flex-direction: column; gap: 20px; }
 
     .field { display: flex; flex-direction: column; gap: 6px; }
     .field label { font-size: 12px; color: var(--muted); text-transform: uppercase; letter-spacing: 0.4px; font-weight: 600; }
     .field input, .field select, .field textarea {
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: 10px;
-      padding: 12px 14px;
-      color: var(--text);
-      font-size: 15px;
-      font-family: inherit;
-      outline: none;
-      width: 100%;
-      -webkit-appearance: none;
+      background: var(--surface); border: 1px solid var(--border); border-radius: 10px;
+      padding: 12px 14px; color: var(--text); font-size: 15px; font-family: inherit;
+      outline: none; width: 100%; -webkit-appearance: none;
     }
     .field input:focus, .field select:focus, .field textarea:focus { border-color: var(--accent); }
     .field textarea { resize: none; min-height: 80px; }
     .field select { background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%2364748b' stroke-width='2'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 14px center; padding-right: 36px; }
-
     .row-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
-
     .divider { height: 1px; background: var(--border); }
-
-    /* Hint text */
     .field-hint { font-size: 11px; color: var(--muted); }
+    .section-label { font-size: 11px; font-weight: 700; color: var(--muted); text-transform: uppercase; letter-spacing: 0.6px; }
 
-    /* Submit */
+    /* Upload area */
+    .upload-area {
+      border: 2px dashed var(--border); border-radius: 14px; padding: 40px 20px;
+      text-align: center; cursor: pointer; transition: all 0.2s; position: relative;
+    }
+    .upload-area:hover, .upload-area.drag-over { border-color: var(--accent); background: rgba(59,130,246,0.05); }
+    .upload-area input[type=file] { position: absolute; inset: 0; opacity: 0; cursor: pointer; width: 100%; height: 100%; }
+    .upload-icon { font-size: 40px; margin-bottom: 12px; }
+    .upload-title { font-size: 16px; font-weight: 600; margin-bottom: 6px; }
+    .upload-desc { font-size: 13px; color: var(--muted); }
+
+    /* Preview */
+    #preview-wrap { display: none; }
+    .preview-img { width: 100%; border-radius: 10px; border: 1px solid var(--border); max-height: 300px; object-fit: contain; background: var(--surface2); }
+    .preview-name { font-size: 13px; color: var(--muted); margin-top: 8px; text-align: center; }
+
+    /* Status */
+    .status-box { padding: 16px; border-radius: 10px; border: 1px solid; font-size: 14px; line-height: 1.5; }
+    .status-box.info    { background: rgba(59,130,246,0.08); border-color: rgba(59,130,246,0.3); color: var(--accent2); }
+    .status-box.success { background: rgba(34,197,94,0.08);  border-color: rgba(34,197,94,0.3);  color: var(--green); }
+    .status-box.error   { background: rgba(239,68,68,0.08);  border-color: rgba(239,68,68,0.3);  color: var(--red); }
+    #upload-status { display: none; }
+
+    /* Buttons */
     .btn-submit {
       position: fixed; bottom: 20px; left: 20px; right: 20px;
       background: var(--accent); color: #fff; border: none; border-radius: 14px;
       padding: 16px; font-size: 16px; font-weight: 700; cursor: pointer;
       display: flex; align-items: center; justify-content: center; gap: 8px;
-      box-shadow: 0 4px 24px rgba(59,130,246,0.35);
-      transition: background 0.15s;
+      box-shadow: 0 4px 24px rgba(59,130,246,0.35); transition: background 0.15s;
     }
     .btn-submit:active { background: #2563eb; }
     .btn-submit:disabled { background: var(--muted); box-shadow: none; cursor: not-allowed; }
 
     /* Toast */
-    #toast {
-      position: fixed; top: 80px; left: 50%; transform: translateX(-50%);
-      background: var(--surface2); border: 1px solid var(--border);
-      border-radius: 10px; padding: 12px 20px; font-size: 14px;
-      white-space: nowrap; z-index: 999; opacity: 0;
-      transition: opacity 0.3s; pointer-events: none;
-    }
+    #toast { position: fixed; top: 80px; left: 50%; transform: translateX(-50%); background: var(--surface2); border: 1px solid var(--border); border-radius: 10px; padding: 12px 20px; font-size: 14px; white-space: nowrap; z-index: 999; opacity: 0; transition: opacity 0.3s; pointer-events: none; }
     #toast.show { opacity: 1; }
     #toast.success { border-color: rgba(34,197,94,0.4); color: var(--green); }
-    #toast.error   { border-color: rgba(239,68,68,0.4);  color: var(--red); }
+    #toast.error   { border-color: rgba(239,68,68,0.4); color: var(--red); }
 
     /* Token screen */
     #token-screen { padding: 32px 20px; display: flex; flex-direction: column; gap: 16px; }
@@ -80,116 +92,109 @@
     .token-input { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 12px 14px; color: var(--text); font-size: 14px; font-family: 'Courier New', monospace; outline: none; width: 100%; }
     .token-input:focus { border-color: var(--accent); }
     .token-btn { background: var(--accent); color: #fff; border: none; border-radius: 12px; padding: 14px; font-size: 16px; font-weight: 700; cursor: pointer; margin-top: 4px; }
-
-    #main-form { display: none; }
-
-    .section-label { font-size: 11px; font-weight: 700; color: var(--muted); text-transform: uppercase; letter-spacing: 0.6px; }
+    #app { display: none; }
   </style>
 </head>
 <body>
 
-<header>
-  <div class="h-icon">
-    <svg viewBox="0 0 24 24"><path d="M5 11L6.5 6.5C6.78 5.6 7.6 5 8.54 5h6.92c.94 0 1.76.6 2.04 1.5L19 11M3 11h18v4a1 1 0 01-1 1h-1a2 2 0 01-4 0H9a2 2 0 01-4 0H4a1 1 0 01-1-1v-4zM7.5 15.5a.5.5 0 110-1 .5.5 0 010 1zm9 0a.5.5 0 110-1 .5.5 0 010 1z"/></svg>
-  </div>
-  <div>
-    <div class="h-title">Nova manutenção</div>
-    <div class="h-sub" id="header-plate">Polo TSI Highline · QKM7F75</div>
-  </div>
-</header>
-
 <div id="toast"></div>
 
-<!-- Token setup screen -->
+<!-- Token screen -->
 <div id="token-screen">
+  <header style="position:static;margin:-32px -20px 0;padding:16px 20px;">
+    <div class="h-icon"><svg viewBox="0 0 24 24"><path d="M5 11L6.5 6.5C6.78 5.6 7.6 5 8.54 5h6.92c.94 0 1.76.6 2.04 1.5L19 11M3 11h18v4a1 1 0 01-1 1h-1a2 2 0 01-4 0H9a2 2 0 01-4 0H4a1 1 0 01-1-1v-4zM7.5 15.5a.5.5 0 110-1 .5.5 0 010 1zm9 0a.5.5 0 110-1 .5.5 0 010 1z"/></svg></div>
+    <div><div class="h-title">Manutenção</div><div class="h-sub">Polo TSI Highline · QKM7F75</div></div>
+  </header>
+  <div style="height:8px"></div>
   <div class="token-title">Configurar acesso</div>
-  <div class="token-desc">Cole seu GitHub Personal Access Token para salvar os dados. Ele fica guardado no seu celular e nunca é enviado a terceiros.</div>
+  <div class="token-desc">Cole seu GitHub Personal Access Token para salvar os dados. Fica guardado no celular — você só faz isso uma vez.</div>
   <input id="token-input" class="token-input" type="password" placeholder="ghp_..." autocomplete="off" />
   <button class="token-btn" onclick="setupToken()">Entrar</button>
 </div>
 
-<!-- Main form -->
-<div id="main-form">
-  <div class="form-wrap">
+<!-- App -->
+<div id="app">
+  <header>
+    <div class="h-icon"><svg viewBox="0 0 24 24"><path d="M5 11L6.5 6.5C6.78 5.6 7.6 5 8.54 5h6.92c.94 0 1.76.6 2.04 1.5L19 11M3 11h18v4a1 1 0 01-1 1h-1a2 2 0 01-4 0H9a2 2 0 01-4 0H4a1 1 0 01-1-1v-4zM7.5 15.5a.5.5 0 110-1 .5.5 0 010 1zm9 0a.5.5 0 110-1 .5.5 0 010 1z"/></svg></div>
+    <div><div class="h-title">Nova manutenção</div><div class="h-sub">Polo TSI Highline · QKM7F75</div></div>
+  </header>
 
-    <div class="section-label">Informações gerais</div>
-
-    <div class="field">
-      <label>Data do serviço</label>
-      <input type="date" id="f-date" />
-    </div>
-
-    <div class="field">
-      <label>Quilometragem</label>
-      <input type="number" id="f-mileage" placeholder="Ex: 87500" inputmode="numeric" />
-    </div>
-
-    <div class="field">
-      <label>Tipo de serviço</label>
-      <select id="f-type">
-        <option value="oil_change">Troca de óleo</option>
-        <option value="revision">Revisão</option>
-        <option value="repair" selected>Reparo</option>
-        <option value="tire">Pneus</option>
-        <option value="brake">Freios</option>
-        <option value="other">Outro</option>
-      </select>
-    </div>
-
-    <div class="field">
-      <label>Oficina / estabelecimento</label>
-      <input type="text" id="f-shop" placeholder="Nome da oficina" />
-    </div>
-
-    <div class="divider"></div>
-    <div class="section-label">Serviços e peças</div>
-
-    <div class="field">
-      <label>Serviços realizados</label>
-      <textarea id="f-services" placeholder="Um por linha&#10;Ex: Troca de óleo&#10;Alinhamento"></textarea>
-      <div class="field-hint">Um serviço por linha</div>
-    </div>
-
-    <div class="field">
-      <label>Peças substituídas</label>
-      <textarea id="f-parts" placeholder="Uma por linha&#10;Ex: Filtro de óleo&#10;Correia dentada"></textarea>
-      <div class="field-hint">Uma peça por linha</div>
-    </div>
-
-    <div class="divider"></div>
-    <div class="section-label">Custos (R$)</div>
-
-    <div class="row-2">
-      <div class="field">
-        <label>Mão de obra</label>
-        <input type="number" id="f-labor" placeholder="0,00" inputmode="decimal" step="0.01" />
-      </div>
-      <div class="field">
-        <label>Peças</label>
-        <input type="number" id="f-parts-cost" placeholder="0,00" inputmode="decimal" step="0.01" />
-      </div>
-    </div>
-
-    <div class="field">
-      <label>Total</label>
-      <input type="number" id="f-total" placeholder="0,00" inputmode="decimal" step="0.01" />
-      <div class="field-hint">Preenchido automaticamente se deixar vazio</div>
-    </div>
-
-    <div class="divider"></div>
-
-    <div class="field">
-      <label>Observações</label>
-      <textarea id="f-notes" placeholder="Qualquer observação adicional..."></textarea>
-    </div>
-
-    <div style="height:60px"></div><!-- spacer for fixed button -->
+  <!-- Tabs -->
+  <div class="tabs">
+    <div class="tab active" onclick="switchTab('upload')">📷 Enviar nota</div>
+    <div class="tab" onclick="switchTab('manual')">✏️ Digitar dados</div>
   </div>
 
-  <button class="btn-submit" id="btn-submit" onclick="submitEntry()">
-    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M19 21H5a2 2 0 01-2-2V5a2 2 0 012-2h11l5 5v14a2 2 0 01-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/></svg>
-    Salvar manutenção
-  </button>
+  <!-- Tab: Upload documento -->
+  <div id="tab-upload" class="tab-content active">
+    <div class="form-wrap">
+
+      <div class="status-box info">
+        Fotografe ou selecione a nota de serviço. O Claude vai ler os dados automaticamente e salvar no histórico em segundos.
+      </div>
+
+      <div class="upload-area" id="upload-area">
+        <input type="file" id="file-input" accept="image/*,.pdf" capture="environment" onchange="onFileSelected(this)" />
+        <div class="upload-icon">📄</div>
+        <div class="upload-title">Tirar foto ou selecionar arquivo</div>
+        <div class="upload-desc">JPG, PNG, PDF · máx. 10 MB</div>
+      </div>
+
+      <div id="preview-wrap">
+        <img id="preview-img" class="preview-img" />
+        <div class="preview-name" id="preview-name"></div>
+      </div>
+
+      <div id="upload-status" class="status-box"></div>
+
+      <div style="height:60px"></div>
+    </div>
+
+    <button class="btn-submit" id="btn-upload" onclick="sendDocument()" style="display:none">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="16 16 12 12 8 16"/><line x1="12" y1="12" x2="12" y2="21"/><path d="M20.39 18.39A5 5 0 0018 9h-1.26A8 8 0 103 16.3"/></svg>
+      Enviar para processamento
+    </button>
+  </div>
+
+  <!-- Tab: Manual -->
+  <div id="tab-manual" class="tab-content">
+    <div class="form-wrap">
+      <div class="section-label">Informações gerais</div>
+      <div class="field"><label>Data do serviço</label><input type="date" id="f-date" /></div>
+      <div class="field"><label>Quilometragem</label><input type="number" id="f-mileage" placeholder="Ex: 87500" inputmode="numeric" /></div>
+      <div class="field">
+        <label>Tipo de serviço</label>
+        <select id="f-type">
+          <option value="oil_change">Troca de óleo</option>
+          <option value="revision">Revisão</option>
+          <option value="repair" selected>Reparo</option>
+          <option value="tire">Pneus</option>
+          <option value="brake">Freios</option>
+          <option value="other">Outro</option>
+        </select>
+      </div>
+      <div class="field"><label>Oficina / estabelecimento</label><input type="text" id="f-shop" placeholder="Nome da oficina" /></div>
+      <div class="divider"></div>
+      <div class="section-label">Serviços e peças</div>
+      <div class="field"><label>Serviços realizados</label><textarea id="f-services" placeholder="Um por linha&#10;Ex: Troca de óleo&#10;Alinhamento"></textarea><div class="field-hint">Um serviço por linha</div></div>
+      <div class="field"><label>Peças substituídas</label><textarea id="f-parts" placeholder="Uma por linha&#10;Ex: Filtro de óleo"></textarea><div class="field-hint">Uma peça por linha</div></div>
+      <div class="divider"></div>
+      <div class="section-label">Custos (R$)</div>
+      <div class="row-2">
+        <div class="field"><label>Mão de obra</label><input type="number" id="f-labor" placeholder="0,00" inputmode="decimal" step="0.01" /></div>
+        <div class="field"><label>Peças</label><input type="number" id="f-parts-cost" placeholder="0,00" inputmode="decimal" step="0.01" /></div>
+      </div>
+      <div class="field"><label>Total</label><input type="number" id="f-total" placeholder="0,00" inputmode="decimal" step="0.01" /><div class="field-hint">Preenchido automaticamente se deixar vazio</div></div>
+      <div class="divider"></div>
+      <div class="field"><label>Observações</label><textarea id="f-notes" placeholder="Qualquer observação adicional..."></textarea></div>
+      <div style="height:60px"></div>
+    </div>
+
+    <button class="btn-submit" id="btn-manual" onclick="submitManual()">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M19 21H5a2 2 0 01-2-2V5a2 2 0 012-2h11l5 5v14a2 2 0 01-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/></svg>
+      Salvar manutenção
+    </button>
+  </div>
 </div>
 
 <script>
@@ -197,21 +202,21 @@
   const GH_API    = 'https://api.github.com';
   const TOKEN_KEY = 'car_manager_token';
 
+  let selectedFile = null;
+
   function getToken() { return localStorage.getItem(TOKEN_KEY); }
 
   function setupToken() {
     const t = document.getElementById('token-input').value.trim();
     if (!t) return;
     localStorage.setItem(TOKEN_KEY, t);
-    showForm();
+    document.getElementById('token-screen').style.display = 'none';
+    document.getElementById('app').style.display = 'block';
+    initApp();
   }
 
-  function showForm() {
-    document.getElementById('token-screen').style.display = 'none';
-    document.getElementById('main-form').style.display = 'block';
-    // Set today as default date
-    document.getElementById('f-date').value = new Date().toISOString().slice(0, 10);
-    // Auto-sum total
+  function initApp() {
+    document.getElementById('f-date').value = new Date().toISOString().slice(0,10);
     ['f-labor','f-parts-cost'].forEach(id => {
       document.getElementById(id).addEventListener('input', autoTotal);
     });
@@ -223,23 +228,95 @@
     if (labor || parts) document.getElementById('f-total').value = (labor + parts).toFixed(2);
   }
 
-  function showToast(msg, type = 'success') {
-    const t = document.getElementById('toast');
-    t.textContent = msg;
-    t.className = `show ${type}`;
-    setTimeout(() => { t.className = ''; }, 3000);
+  function switchTab(tab) {
+    document.querySelectorAll('.tab').forEach((t,i) => t.classList.toggle('active', (tab==='upload' && i===0)||(tab==='manual' && i===1)));
+    document.getElementById('tab-upload').classList.toggle('active', tab==='upload');
+    document.getElementById('tab-manual').classList.toggle('active', tab==='manual');
   }
 
+  function showToast(msg, type='success') {
+    const t = document.getElementById('toast');
+    t.textContent = msg; t.className = `show ${type}`;
+    setTimeout(() => t.className = '', 3500);
+  }
+
+  function setUploadStatus(msg, type) {
+    const s = document.getElementById('upload-status');
+    s.style.display = msg ? 'block' : 'none';
+    s.className = `status-box ${type}`;
+    s.textContent = msg;
+  }
+
+  // ── File selection ──
+
+  function onFileSelected(input) {
+    const file = input.files[0];
+    if (!file) return;
+    if (file.size > 10 * 1024 * 1024) { showToast('Arquivo muito grande (máx. 10MB)', 'error'); return; }
+
+    selectedFile = file;
+    document.getElementById('preview-name').textContent = file.name;
+    document.getElementById('btn-upload').style.display = 'flex';
+    setUploadStatus('', '');
+
+    if (file.type.startsWith('image/')) {
+      const reader = new FileReader();
+      reader.onload = e => {
+        document.getElementById('preview-img').src = e.target.result;
+        document.getElementById('preview-wrap').style.display = 'block';
+      };
+      reader.readAsDataURL(file);
+    } else {
+      document.getElementById('preview-img').src = '';
+      document.getElementById('preview-wrap').style.display = 'block';
+      document.getElementById('preview-img').style.display = 'none';
+    }
+  }
+
+  // ── Compress image before upload ──
+  async function compressImage(file, maxPx = 2048, quality = 0.85) {
+    if (file.type === 'application/pdf') return file;
+    return new Promise(resolve => {
+      const img = new Image();
+      const url = URL.createObjectURL(file);
+      img.onload = () => {
+        let { width: w, height: h } = img;
+        if (w > maxPx || h > maxPx) {
+          const scale = maxPx / Math.max(w, h);
+          w = Math.round(w * scale); h = Math.round(h * scale);
+        }
+        const canvas = document.createElement('canvas');
+        canvas.width = w; canvas.height = h;
+        canvas.getContext('2d').drawImage(img, 0, 0, w, h);
+        canvas.toBlob(blob => resolve(new File([blob], file.name, {type:'image/jpeg'})), 'image/jpeg', quality);
+        URL.revokeObjectURL(url);
+      };
+      img.src = url;
+    });
+  }
+
+  // ── GitHub helpers ──
   async function ghGetFile(path) {
     const res = await fetch(`${GH_API}/repos/${REPO}/contents/${path}`, {
       headers: { 'Authorization': `token ${getToken()}`, 'Accept': 'application/vnd.github.v3+json' }
     });
     if (!res.ok) throw new Error(`Erro ${res.status} ao ler ${path}`);
-    return res.json(); // returns {content, sha, ...}
+    return res.json();
   }
 
-  async function ghPutFile(path, content, sha, message) {
-    const encoded = btoa(unescape(encodeURIComponent(JSON.stringify(content, null, 2))));
+  async function ghPutBinary(path, arrayBuffer, message) {
+    const b64 = btoa(String.fromCharCode(...new Uint8Array(arrayBuffer)));
+    const res = await fetch(`${GH_API}/repos/${REPO}/contents/${path}`, {
+      method: 'PUT',
+      headers: { 'Authorization': `token ${getToken()}`, 'Accept': 'application/vnd.github.v3+json', 'Content-Type': 'application/json' },
+      body: JSON.stringify({ message, content: b64 })
+    });
+    if (!res.ok) { const e = await res.json(); throw new Error(e.message || `Erro ${res.status}`); }
+    return res.json();
+  }
+
+  async function ghPutJSON(path, data, sha, message) {
+    const encoded = btoa(unescape(encodeURIComponent(JSON.stringify(data, null, 2))));
     const res = await fetch(`${GH_API}/repos/${REPO}/contents/${path}`, {
       method: 'PUT',
       headers: { 'Authorization': `token ${getToken()}`, 'Accept': 'application/vnd.github.v3+json', 'Content-Type': 'application/json' },
@@ -249,79 +326,71 @@
     return res.json();
   }
 
+  // ── Send document ──
+  async function sendDocument() {
+    if (!selectedFile) return;
+    const btn = document.getElementById('btn-upload');
+    btn.disabled = true;
+    btn.innerHTML = '⏳ Enviando...';
+    setUploadStatus('Comprimindo imagem...', 'info');
+
+    try {
+      const compressed = await compressImage(selectedFile);
+      const ts = new Date().toISOString().replace(/[-:T]/g,'').slice(0,15);
+      const ext = compressed.name.split('.').pop();
+      const filename = `${ts}.${ext}`;
+
+      setUploadStatus('Enviando para processamento automático...', 'info');
+      const buffer = await compressed.arrayBuffer();
+      await ghPutBinary(`incoming/${filename}`, buffer, `Novo documento: ${filename}`);
+
+      setUploadStatus('✓ Documento enviado! O Claude vai processar automaticamente em instantes. Verifique o dashboard em 1-2 minutos.', 'success');
+      document.getElementById('btn-upload').style.display = 'none';
+      selectedFile = null;
+
+    } catch(err) {
+      setUploadStatus('Erro: ' + err.message, 'error');
+    } finally {
+      btn.disabled = false;
+      btn.innerHTML = '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="16 16 12 12 8 16"/><line x1="12" y1="12" x2="12" y2="21"/><path d="M20.39 18.39A5 5 0 0018 9h-1.26A8 8 0 103 16.3"/></svg>Enviar para processamento';
+    }
+  }
+
+  // ── Manual entry ──
   function generateId() {
     return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, c => {
-      const r = Math.random() * 16 | 0;
-      return (c === 'x' ? r : (r & 0x3 | 0x8)).toString(16);
+      const r = Math.random()*16|0; return (c==='x'?r:(r&0x3|0x8)).toString(16);
     });
   }
 
-  function parseLines(str) {
-    return str.split('\n').map(s => s.trim()).filter(Boolean);
-  }
-
-  async function submitEntry() {
-    const btn = document.getElementById('btn-submit');
+  async function submitManual() {
+    const btn = document.getElementById('btn-manual');
     btn.disabled = true;
     btn.textContent = 'Salvando...';
-
     try {
-      const date     = document.getElementById('f-date').value;
-      const mileage  = document.getElementById('f-mileage').value;
-      const type     = document.getElementById('f-type').value;
-      const shop     = document.getElementById('f-shop').value.trim();
-      const services = parseLines(document.getElementById('f-services').value);
-      const parts    = parseLines(document.getElementById('f-parts').value);
-      const labor    = parseFloat(document.getElementById('f-labor').value) || null;
-      const partsCost= parseFloat(document.getElementById('f-parts-cost').value) || null;
-      const total    = parseFloat(document.getElementById('f-total').value) || (labor||0) + (partsCost||0) || null;
-      const notes    = document.getElementById('f-notes').value.trim();
+      const date      = document.getElementById('f-date').value;
+      const mileage   = document.getElementById('f-mileage').value;
+      const type      = document.getElementById('f-type').value;
+      const shop      = document.getElementById('f-shop').value.trim();
+      const services  = document.getElementById('f-services').value.split('\n').map(s=>s.trim()).filter(Boolean);
+      const parts     = document.getElementById('f-parts').value.split('\n').map(s=>s.trim()).filter(Boolean);
+      const labor     = parseFloat(document.getElementById('f-labor').value) || null;
+      const partsCost = parseFloat(document.getElementById('f-parts-cost').value) || null;
+      const total     = parseFloat(document.getElementById('f-total').value) || (labor||0)+(partsCost||0) || null;
+      const notes     = document.getElementById('f-notes').value.trim();
 
-      if (!date) { showToast('Informe a data do serviço', 'error'); btn.disabled=false; btn.textContent='Salvar manutenção'; return; }
+      if (!date) { showToast('Informe a data', 'error'); btn.disabled=false; btn.textContent='Salvar manutenção'; return; }
 
-      // Read current maintenance.json
       const file = await ghGetFile('data/maintenance.json');
-      const data = JSON.parse(atob(file.content.replace(/\n/g, '')));
-
-      const entry = {
-        id: generateId(),
-        date,
-        mileage: mileage ? parseInt(mileage) : null,
-        type,
-        services,
-        parts,
-        shop,
-        cost_labor: labor,
-        cost_parts: partsCost,
-        cost_total: total,
-        notes,
-        document_file: ''
-      };
-
+      const data = JSON.parse(atob(file.content.replace(/\n/g,'')));
+      const entry = { id: generateId(), date, mileage: mileage ? parseInt(mileage) : null, type, services, parts, shop, cost_labor: labor, cost_parts: partsCost, cost_total: total, notes, document_file: '' };
       data.entries.push(entry);
+      if (entry.mileage && (!data.vehicle.mileage_current || entry.mileage > data.vehicle.mileage_current)) data.vehicle.mileage_current = entry.mileage;
+      await ghPutJSON('data/maintenance.json', data, file.sha, `Adiciona manutenção: ${type} em ${date}`);
 
-      // Update mileage_current if higher
-      if (entry.mileage && (!data.vehicle.mileage_current || entry.mileage > data.vehicle.mileage_current)) {
-        data.vehicle.mileage_current = entry.mileage;
-      }
-
-      await ghPutFile('data/maintenance.json', data, file.sha, `Adiciona manutenção: ${type} em ${date}`);
-
-      showToast('✓ Manutenção salva com sucesso!', 'success');
-
-      // Reset form
-      setTimeout(() => {
-        document.getElementById('f-mileage').value = '';
-        document.getElementById('f-shop').value = '';
-        document.getElementById('f-services').value = '';
-        document.getElementById('f-parts').value = '';
-        document.getElementById('f-labor').value = '';
-        document.getElementById('f-parts-cost').value = '';
-        document.getElementById('f-total').value = '';
-        document.getElementById('f-notes').value = '';
-        document.getElementById('f-date').value = new Date().toISOString().slice(0, 10);
-      }, 1500);
-
+      showToast('✓ Manutenção salva!', 'success');
+      ['f-mileage','f-shop','f-services','f-parts','f-labor','f-parts-cost','f-total','f-notes'].forEach(id => document.getElementById(id).value = '');
+      document.getElementById('f-date').value = new Date().toISOString().slice(0,10);
     } catch(err) {
       showToast('Erro: ' + err.message, 'error');
     } finally {
@@ -330,9 +399,9 @@
     }
   }
 
-  // Init
+  // ── Init ──
   document.getElementById('token-input')?.addEventListener('keydown', e => { if(e.key==='Enter') setupToken(); });
-  if (getToken()) showForm();
+  if (getToken()) { document.getElementById('token-screen').style.display='none'; document.getElementById('app').style.display='block'; initApp(); }
 </script>
 </body>
 </html>

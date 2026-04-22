@@ -22,86 +22,200 @@
     }
     html { scroll-behavior: smooth; }
     body { background: var(--bg); color: var(--text); font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif; font-size: 14px; line-height: 1.6; min-height: 100vh; }
-    .shell { max-width: 1280px; margin: 0 auto; padding: 0 24px 48px; }
-    header { border-bottom: 1px solid var(--border); padding: 20px 0 16px; display: flex; align-items: center; justify-content: space-between; gap: 16px; flex-wrap: wrap; }
-    .header-brand { display: flex; align-items: center; gap: 12px; }
-    .header-icon { width: 36px; height: 36px; background: var(--accent); border-radius: 8px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
-    .header-icon svg { width: 20px; height: 20px; fill: #fff; }
-    .header-title { font-size: 18px; font-weight: 600; letter-spacing: -0.3px; }
-    .header-subtitle { font-size: 12px; color: var(--muted); margin-top: 1px; }
-    .header-plate { font-family: var(--mono); font-size: 13px; background: var(--surface2); border: 1px solid var(--border); border-radius: 6px; padding: 4px 10px; letter-spacing: 1px; color: var(--accent2); }
-    .section { margin-top: 36px; }
-    .section-title { font-size: 11px; font-weight: 600; letter-spacing: 1px; text-transform: uppercase; color: var(--muted); margin-bottom: 14px; display: flex; align-items: center; gap: 8px; }
+    .shell { max-width: 1280px; margin: 0 auto; padding: 0 16px 48px; }
+
+    /* ── Header ── */
+    header { border-bottom: 1px solid var(--border); padding: 16px 0; display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap; }
+    .header-brand { display: flex; align-items: center; gap: 10px; }
+    .header-icon { width: 34px; height: 34px; background: var(--accent); border-radius: 8px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+    .header-icon svg { width: 18px; height: 18px; fill: #fff; }
+    .header-title { font-size: 16px; font-weight: 600; letter-spacing: -0.3px; }
+    .header-subtitle { font-size: 11px; color: var(--muted); }
+    .header-right { display: flex; align-items: center; gap: 8px; }
+    .header-plate { font-family: var(--mono); font-size: 12px; background: var(--surface2); border: 1px solid var(--border); border-radius: 6px; padding: 3px 9px; letter-spacing: 1px; color: var(--accent2); }
+    .btn-reset-token { font-size: 11px; color: var(--muted); background: none; border: 1px solid var(--border); border-radius: 6px; padding: 4px 9px; cursor: pointer; }
+    .btn-reset-token:hover { color: var(--text); }
+
+    /* ── Sections ── */
+    .section { margin-top: 28px; }
+    .section-title { font-size: 11px; font-weight: 600; letter-spacing: 1px; text-transform: uppercase; color: var(--muted); margin-bottom: 12px; display: flex; align-items: center; gap: 8px; }
     .section-title::after { content: ''; flex: 1; height: 1px; background: var(--border); }
-    .card { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 20px; }
-    .kpi-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 12px; }
-    .kpi { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 16px 18px; position: relative; overflow: hidden; }
+
+    /* ── Card ── */
+    .card { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 16px; }
+
+    /* ── KPI grid ── */
+    .kpi-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; }
+    @media (min-width: 640px) { .kpi-grid { grid-template-columns: repeat(4, 1fr); } }
+    .kpi { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 14px 16px; position: relative; overflow: hidden; }
     .kpi::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px; background: var(--accent); border-radius: 10px 10px 0 0; }
-    .kpi-label { font-size: 11px; color: var(--muted); text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 6px; }
-    .kpi-value { font-size: 22px; font-weight: 700; line-height: 1.1; color: var(--text); }
-    .kpi-sub { font-size: 11px; color: var(--muted); margin-top: 4px; }
-    .info-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 12px 20px; }
-    .info-label { font-size: 11px; color: var(--muted); text-transform: uppercase; letter-spacing: 0.4px; margin-bottom: 2px; }
-    .info-value { font-size: 14px; color: var(--text); }
-    .info-value.mono { font-family: var(--mono); font-size: 13px; color: var(--accent2); }
-    .alerts-list { display: flex; flex-direction: column; gap: 10px; }
-    .alert-item { display: flex; align-items: flex-start; gap: 12px; padding: 14px 16px; border-radius: 8px; border: 1px solid; }
+    .kpi-label { font-size: 10px; color: var(--muted); text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 4px; }
+    .kpi-value { font-size: 18px; font-weight: 700; line-height: 1.2; }
+    .kpi-sub { font-size: 10px; color: var(--muted); margin-top: 2px; }
+
+    /* ── Vehicle info ── */
+    .info-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px 16px; }
+    @media (min-width: 640px) { .info-grid { grid-template-columns: repeat(4, 1fr); } }
+    .info-label { font-size: 10px; color: var(--muted); text-transform: uppercase; letter-spacing: 0.4px; margin-bottom: 2px; }
+    .info-value { font-size: 13px; }
+    .info-value.mono { font-family: var(--mono); font-size: 12px; color: var(--accent2); }
+
+    /* ── Alerts ── */
+    .alerts-list { display: flex; flex-direction: column; gap: 8px; }
+    .alert-item { display: flex; align-items: flex-start; gap: 10px; padding: 12px 14px; border-radius: 8px; border: 1px solid; }
     .alert-item.high   { background: rgba(239,68,68,0.06);  border-color: rgba(239,68,68,0.25); }
     .alert-item.medium { background: rgba(234,179,8,0.06);  border-color: rgba(234,179,8,0.25); }
     .alert-item.low    { background: rgba(34,197,94,0.06);  border-color: rgba(34,197,94,0.25); }
-    .alert-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; margin-top: 5px; }
-    .alert-item.high   .alert-dot { background: var(--red); }
+    .alert-dot { width: 7px; height: 7px; border-radius: 50%; flex-shrink: 0; margin-top: 6px; }
+    .alert-item.high .alert-dot   { background: var(--red); }
     .alert-item.medium .alert-dot { background: var(--yellow); }
-    .alert-item.low    .alert-dot { background: var(--green); }
-    .alert-body { flex: 1; }
+    .alert-item.low .alert-dot    { background: var(--green); }
+    .alert-body { flex: 1; min-width: 0; }
     .alert-title { font-weight: 600; font-size: 13px; }
-    .alert-desc  { font-size: 12px; color: var(--muted); margin-top: 2px; }
-    .badge-urgency { font-size: 10px; font-weight: 600; padding: 2px 8px; border-radius: 999px; text-transform: uppercase; letter-spacing: 0.5px; flex-shrink: 0; }
+    .alert-desc  { font-size: 12px; color: var(--muted); margin-top: 1px; }
+    .badge-urgency { font-size: 10px; font-weight: 600; padding: 2px 7px; border-radius: 999px; text-transform: uppercase; letter-spacing: 0.4px; flex-shrink: 0; white-space: nowrap; }
     .badge-urgency.high   { background: rgba(239,68,68,0.15);  color: var(--red); }
     .badge-urgency.medium { background: rgba(234,179,8,0.15);  color: var(--yellow); }
     .badge-urgency.low    { background: rgba(34,197,94,0.15);  color: var(--green); }
-    .table-wrap { overflow-x: auto; }
-    table { width: 100%; border-collapse: collapse; font-size: 13px; }
-    th { text-align: left; padding: 10px 12px; font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; color: var(--muted); border-bottom: 1px solid var(--border); white-space: nowrap; }
-    td { padding: 11px 12px; border-bottom: 1px solid var(--border); vertical-align: top; }
-    tr:last-child td { border-bottom: none; }
-    tr:hover td { background: var(--surface2); }
-    .badge-type { display: inline-block; font-size: 10px; font-weight: 600; padding: 2px 8px; border-radius: 999px; letter-spacing: 0.3px; white-space: nowrap; }
-    .type-oil_change  { background: rgba(59,130,246,0.15); color: #60a5fa; }
-    .type-revision    { background: rgba(139,92,246,0.15); color: #a78bfa; }
-    .type-repair      { background: rgba(234,179,8,0.15);  color: #fbbf24; }
-    .type-tire        { background: rgba(34,197,94,0.15);  color: #4ade80; }
-    .type-brake       { background: rgba(239,68,68,0.15);  color: #f87171; }
-    .type-other       { background: rgba(100,116,139,0.15);color: #94a3b8; }
+
+    /* ── Type badge ── */
+    .badge-type { display: inline-block; font-size: 10px; font-weight: 600; padding: 2px 8px; border-radius: 999px; white-space: nowrap; }
+    .type-oil_change { background: rgba(59,130,246,0.15);  color: #60a5fa; }
+    .type-revision   { background: rgba(139,92,246,0.15);  color: #a78bfa; }
+    .type-repair     { background: rgba(234,179,8,0.15);   color: #fbbf24; }
+    .type-tire       { background: rgba(34,197,94,0.15);   color: #4ade80; }
+    .type-brake      { background: rgba(239,68,68,0.15);   color: #f87171; }
+    .type-other      { background: rgba(100,116,139,0.15); color: #94a3b8; }
+
+    /* ══════════════════════════════════════════
+       MOBILE CARDS  (default, up to 767px)
+    ══════════════════════════════════════════ */
+    .history-table-wrap { display: none; }
+
+    .history-cards { display: flex; flex-direction: column; gap: 10px; }
+
+    .hcard {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      overflow: hidden;
+    }
+
+    /* Top bar: colored left border by type */
+    .hcard-top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 12px 14px 10px;
+      gap: 8px;
+      border-left: 3px solid var(--accent);
+    }
+    .hcard.type-oil_change .hcard-top { border-left-color: #60a5fa; }
+    .hcard.type-revision   .hcard-top { border-left-color: #a78bfa; }
+    .hcard.type-repair     .hcard-top { border-left-color: #fbbf24; }
+    .hcard.type-tire       .hcard-top { border-left-color: #4ade80; }
+    .hcard.type-brake      .hcard-top { border-left-color: #f87171; }
+    .hcard.type-other      .hcard-top { border-left-color: #94a3b8; }
+
+    .hcard-left { flex: 1; min-width: 0; }
+    .hcard-date { font-size: 13px; font-weight: 600; color: var(--text); }
+    .hcard-shop { font-size: 11px; color: var(--muted); margin-top: 1px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+
+    .hcard-right { display: flex; flex-direction: column; align-items: flex-end; gap: 4px; flex-shrink: 0; }
+    .hcard-total { font-size: 14px; font-weight: 700; color: var(--text); font-family: var(--mono); }
+    .hcard-km    { font-size: 11px; color: var(--muted); }
+
+    /* Middle: tags row */
+    .hcard-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 5px;
+      padding: 0 14px 10px;
+    }
+    .tag { font-size: 11px; padding: 2px 7px; background: var(--surface2); border: 1px solid var(--border); border-radius: 4px; color: var(--muted); }
+
+    /* Expand toggle */
+    .hcard-toggle {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 8px 14px;
+      border-top: 1px solid var(--border);
+      cursor: pointer;
+      font-size: 11px;
+      color: var(--muted);
+      user-select: none;
+      -webkit-tap-highlight-color: transparent;
+    }
+    .hcard-toggle:active { background: var(--surface2); }
+    .hcard-toggle svg { transition: transform 0.2s; }
+    .hcard-toggle.open svg { transform: rotate(180deg); }
+
+    /* Expanded details */
+    .hcard-details {
+      display: none;
+      padding: 12px 14px 14px;
+      border-top: 1px solid var(--border);
+      background: var(--surface2);
+      gap: 10px;
+      flex-direction: column;
+    }
+    .hcard-details.open { display: flex; }
+
+    .detail-row { display: flex; flex-direction: column; gap: 3px; }
+    .detail-label { font-size: 10px; color: var(--muted); text-transform: uppercase; letter-spacing: 0.4px; font-weight: 600; }
+    .detail-value { font-size: 12px; color: var(--text); }
+
+    .costs-row { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px; }
+    .cost-item { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 8px 10px; }
+    .cost-label { font-size: 10px; color: var(--muted); margin-bottom: 2px; }
+    .cost-val   { font-size: 13px; font-weight: 600; font-family: var(--mono); }
+
     .doc-link { color: var(--accent2); text-decoration: none; font-size: 12px; display: inline-flex; align-items: center; gap: 4px; }
     .doc-link:hover { text-decoration: underline; }
     .doc-link svg { width: 12px; height: 12px; stroke: currentColor; fill: none; stroke-width: 2; flex-shrink: 0; }
-    .cost-cell { text-align: right; font-variant-numeric: tabular-nums; font-family: var(--mono); font-size: 12px; }
-    .tag-list { display: flex; flex-wrap: wrap; gap: 4px; }
-    .tag { font-size: 11px; padding: 2px 7px; background: var(--surface2); border: 1px solid var(--border); border-radius: 4px; color: var(--muted); }
-    .empty-state { text-align: center; padding: 32px; color: var(--muted); font-size: 13px; }
-    .empty-state svg { width: 40px; height: 40px; stroke: var(--border); fill: none; stroke-width: 1.5; margin: 0 auto 12px; display: block; }
+
+    /* ══════════════════════════════════════════
+       DESKTOP TABLE  (768px+)
+    ══════════════════════════════════════════ */
+    @media (min-width: 768px) {
+      .shell { padding: 0 24px 48px; }
+      .history-cards { display: none; }
+      .history-table-wrap { display: block; overflow-x: auto; }
+      table { width: 100%; border-collapse: collapse; font-size: 13px; }
+      th { text-align: left; padding: 10px 12px; font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; color: var(--muted); border-bottom: 1px solid var(--border); white-space: nowrap; }
+      td { padding: 11px 12px; border-bottom: 1px solid var(--border); vertical-align: top; }
+      tr:last-child td { border-bottom: none; }
+      tr:hover td { background: var(--surface2); }
+      .tag-list { display: flex; flex-wrap: wrap; gap: 4px; }
+      .cost-cell { text-align: right; font-variant-numeric: tabular-nums; font-family: var(--mono); font-size: 12px; }
+    }
+
+    /* ── Empty state ── */
+    .empty-state { text-align: center; padding: 32px 16px; color: var(--muted); font-size: 13px; }
+    .empty-state svg { width: 36px; height: 36px; stroke: var(--border); fill: none; stroke-width: 1.5; margin: 0 auto 10px; display: block; }
+
+    /* ── Loading ── */
     #loading { position: fixed; inset: 0; background: var(--bg); display: flex; align-items: center; justify-content: center; flex-direction: column; gap: 12px; z-index: 100; transition: opacity 0.3s; }
     #loading.hidden { opacity: 0; pointer-events: none; }
-    .spinner { width: 32px; height: 32px; border: 3px solid var(--border); border-top-color: var(--accent); border-radius: 50%; animation: spin 0.8s linear infinite; }
+    .spinner { width: 28px; height: 28px; border: 3px solid var(--border); border-top-color: var(--accent); border-radius: 50%; animation: spin 0.8s linear infinite; }
     @keyframes spin { to { transform: rotate(360deg); } }
-    #error-banner { display: none; background: rgba(239,68,68,0.1); border: 1px solid rgba(239,68,68,0.3); color: var(--red); padding: 12px 16px; border-radius: 8px; margin-top: 20px; font-size: 13px; }
-    ::-webkit-scrollbar { width: 6px; height: 6px; }
-    ::-webkit-scrollbar-track { background: transparent; }
-    ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
-    /* Token modal */
-    #token-modal { position: fixed; inset: 0; background: rgba(0,0,0,0.8); display: flex; align-items: center; justify-content: center; z-index: 200; padding: 20px; }
+
+    /* ── Token modal ── */
+    #token-modal { position: fixed; inset: 0; background: rgba(0,0,0,0.85); display: flex; align-items: center; justify-content: center; z-index: 200; padding: 20px; }
     #token-modal.hidden { display: none; }
-    .modal-box { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 28px; width: 100%; max-width: 420px; }
+    .modal-box { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 24px; width: 100%; max-width: 400px; }
     .modal-title { font-size: 16px; font-weight: 600; margin-bottom: 8px; }
-    .modal-desc { font-size: 13px; color: var(--muted); margin-bottom: 20px; line-height: 1.5; }
+    .modal-desc { font-size: 13px; color: var(--muted); margin-bottom: 18px; line-height: 1.5; }
     .modal-input { width: 100%; background: var(--surface2); border: 1px solid var(--border); border-radius: 8px; padding: 10px 12px; color: var(--text); font-family: var(--mono); font-size: 13px; outline: none; }
     .modal-input:focus { border-color: var(--accent); }
-    .modal-btn { margin-top: 14px; width: 100%; background: var(--accent); color: #fff; border: none; border-radius: 8px; padding: 11px; font-size: 14px; font-weight: 600; cursor: pointer; }
-    .modal-btn:hover { background: var(--accent2); }
-    .header-actions { display: flex; align-items: center; gap: 10px; }
-    .btn-reset-token { font-size: 11px; color: var(--muted); background: none; border: 1px solid var(--border); border-radius: 6px; padding: 4px 10px; cursor: pointer; }
-    .btn-reset-token:hover { color: var(--text); border-color: var(--muted); }
+    .modal-btn { margin-top: 12px; width: 100%; background: var(--accent); color: #fff; border: none; border-radius: 8px; padding: 11px; font-size: 14px; font-weight: 600; cursor: pointer; }
+
+    #error-banner { display: none; background: rgba(239,68,68,0.1); border: 1px solid rgba(239,68,68,0.3); color: var(--red); padding: 12px 14px; border-radius: 8px; margin-top: 16px; font-size: 13px; }
+
+    ::-webkit-scrollbar { width: 5px; height: 5px; }
+    ::-webkit-scrollbar-track { background: transparent; }
+    ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
   </style>
 </head>
 <body>
@@ -110,7 +224,7 @@
 <div id="token-modal">
   <div class="modal-box">
     <div class="modal-title">Configurar acesso</div>
-    <div class="modal-desc">Cole seu GitHub Personal Access Token para carregar os dados do veículo. Ele é salvo localmente no seu browser e nunca é enviado a terceiros.</div>
+    <div class="modal-desc">Cole seu GitHub Personal Access Token para carregar os dados do veículo.</div>
     <input id="token-input" class="modal-input" type="password" placeholder="ghp_..." />
     <button class="modal-btn" onclick="saveToken()">Salvar e entrar</button>
   </div>
@@ -118,7 +232,7 @@
 
 <div id="loading">
   <div class="spinner"></div>
-  <span style="color:var(--muted);font-size:13px;">Carregando dados...</span>
+  <span style="color:var(--muted);font-size:13px;">Carregando...</span>
 </div>
 
 <div class="shell">
@@ -132,52 +246,59 @@
         <div class="header-subtitle" id="vehicle-subtitle"></div>
       </div>
     </div>
-    <div class="header-actions">
+    <div class="header-right">
       <div class="header-plate" id="header-plate">—</div>
-      <button class="btn-reset-token" onclick="resetToken()">Trocar token</button>
+      <button class="btn-reset-token" onclick="resetToken()">Token</button>
     </div>
   </header>
 
   <div id="error-banner"></div>
 
+  <!-- KPIs -->
   <div class="section">
     <div class="section-title">Indicadores</div>
     <div class="kpi-grid">
       <div class="kpi"><div class="kpi-label">Última troca de óleo</div><div class="kpi-value" id="kpi-oil">—</div><div class="kpi-sub" id="kpi-oil-km"></div></div>
       <div class="kpi"><div class="kpi-label">Última revisão</div><div class="kpi-value" id="kpi-revision">—</div><div class="kpi-sub" id="kpi-revision-km"></div></div>
-      <div class="kpi"><div class="kpi-label">Total de registros</div><div class="kpi-value" id="kpi-total">0</div><div class="kpi-sub">manutenções cadastradas</div></div>
+      <div class="kpi"><div class="kpi-label">Total de registros</div><div class="kpi-value" id="kpi-total">0</div><div class="kpi-sub">manutenções</div></div>
       <div class="kpi"><div class="kpi-label">Km atual</div><div class="kpi-value" id="kpi-last-km">—</div><div class="kpi-sub" id="kpi-last-km-date"></div></div>
     </div>
   </div>
 
+  <!-- Vehicle info -->
   <div class="section">
     <div class="section-title">Dados do veículo</div>
     <div class="card"><div class="info-grid" id="vehicle-info"></div></div>
   </div>
 
+  <!-- Alerts -->
   <div class="section" id="alerts-section" style="display:none">
-    <div class="section-title">Alertas de manutenção</div>
+    <div class="section-title">Alertas</div>
     <div class="alerts-list" id="alerts-list"></div>
   </div>
 
+  <!-- Maintenance history -->
   <div class="section">
     <div class="section-title">Histórico de manutenção</div>
-    <div class="card">
-      <div class="table-wrap">
-        <table>
-          <thead>
-            <tr>
-              <th>Data</th><th>Tipo</th><th>Serviços</th><th>Peças</th>
-              <th>Oficina</th><th>Km</th>
-              <th style="text-align:right">M.O.</th>
-              <th style="text-align:right">Peças</th>
-              <th style="text-align:right">Total</th>
-              <th>Documento</th>
-            </tr>
-          </thead>
-          <tbody id="maintenance-body"></tbody>
-        </table>
-      </div>
+
+    <!-- Mobile: cards -->
+    <div class="history-cards" id="history-cards"></div>
+
+    <!-- Desktop: table -->
+    <div class="card history-table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>Data</th><th>Tipo</th><th>Serviços</th><th>Peças</th>
+            <th>Oficina</th><th>Km</th>
+            <th style="text-align:right">M.O.</th>
+            <th style="text-align:right">Peças</th>
+            <th style="text-align:right">Total</th>
+            <th>Doc.</th>
+          </tr>
+        </thead>
+        <tbody id="maintenance-body"></tbody>
+      </table>
     </div>
   </div>
 </div>
@@ -187,7 +308,9 @@
   const GH_API   = 'https://api.github.com';
   const TOKEN_KEY = 'car_manager_token';
 
-  // ---- Token management ----
+  const TYPE_LABELS = { oil_change:'Troca de óleo', revision:'Revisão', repair:'Reparo', tire:'Pneus', brake:'Freios', other:'Outro' };
+
+  // ── Token ──
   function getToken() { return localStorage.getItem(TOKEN_KEY); }
   function saveToken() {
     const t = document.getElementById('token-input').value.trim();
@@ -196,130 +319,174 @@
     document.getElementById('token-modal').classList.add('hidden');
     init();
   }
-  function resetToken() {
-    localStorage.removeItem(TOKEN_KEY);
-    location.reload();
-  }
+  function resetToken() { localStorage.removeItem(TOKEN_KEY); location.reload(); }
 
-  // ---- GitHub API ----
-  async function ghFetch(path, opts = {}) {
-    const token = getToken();
-    const res = await fetch(`${GH_API}/repos/${REPO}/contents/${path}`, {
-      ...opts,
-      headers: { 'Authorization': `token ${token}`, 'Accept': 'application/vnd.github.v3+json', ...(opts.headers || {}) }
-    });
-    return res;
-  }
-
+  // ── GitHub ──
   async function loadJSON(path) {
-    const res = await ghFetch(path);
+    const res = await fetch(`${GH_API}/repos/${REPO}/contents/${path}`, {
+      headers: { 'Authorization': `token ${getToken()}`, 'Accept': 'application/vnd.github.v3+json' }
+    });
     if (!res.ok) throw new Error(`${res.status} ao carregar ${path}`);
     const d = await res.json();
     return JSON.parse(atob(d.content.replace(/\n/g, '')));
   }
 
-  // ---- Formatters ----
+  // ── Formatters ──
   const fmt = {
-    date(d) { if (!d) return '—'; const [y,m,day] = d.split('-'); return `${day}/${m}/${y}`; },
-    km(v)   { if (v == null) return '—'; return Number(v).toLocaleString('pt-BR') + ' km'; },
-    brl(v)  { if (v == null) return '—'; return Number(v).toLocaleString('pt-BR', {style:'currency',currency:'BRL'}); },
-    relDate(d) { if (!d) return ''; const diff = Math.floor((Date.now()-new Date(d))/86400000); if (diff===0) return 'hoje'; if (diff===1) return 'ontem'; if (diff<30) return `há ${diff} dias`; if (diff<365) return `há ${Math.floor(diff/30)} meses`; return `há ${Math.floor(diff/365)} ano(s)`; }
+    date(d) { if (!d) return '—'; const [y,m,day]=d.split('-'); return `${day}/${m}/${y}`; },
+    km(v)   { if (v==null) return '—'; return Number(v).toLocaleString('pt-BR')+' km'; },
+    brl(v)  { if (v==null) return '—'; return Number(v).toLocaleString('pt-BR',{style:'currency',currency:'BRL'}); },
+    relDate(d) { if(!d) return ''; const diff=Math.floor((Date.now()-new Date(d))/86400000); if(diff===0)return'hoje'; if(diff===1)return'ontem'; if(diff<30)return`há ${diff} dias`; if(diff<365)return`há ${Math.floor(diff/30)} meses`; return`há ${Math.floor(diff/365)} ano(s)`; }
   };
-  const TYPE_LABELS = { oil_change:'Troca de óleo', revision:'Revisão', repair:'Reparo', tire:'Pneus', brake:'Freios', other:'Outro' };
+
   function typeBadge(t) { return `<span class="badge-type type-${t}">${TYPE_LABELS[t]||t}</span>`; }
   function urgencyBadge(u) { const l={low:'Baixa',medium:'Média',high:'Alta'}; return `<span class="badge-urgency ${u}">${l[u]||u}</span>`; }
-  function tagList(items) { if(!items||!items.length) return '<span style="color:var(--muted);font-size:12px">—</span>'; return `<div class="tag-list">${items.map(i=>`<span class="tag">${i}</span>`).join('')}</div>`; }
+  function tagListHtml(items) { if(!items||!items.length) return '<span style="color:var(--muted);font-size:12px">—</span>'; return `<div class="tag-list">${items.map(i=>`<span class="tag">${i}</span>`).join('')}</div>`; }
+
   function docLink(f) {
     if (!f) return '—';
     const url = `https://raw.githubusercontent.com/${REPO}/main/documents/${encodeURIComponent(f)}`;
-    return `<a class="doc-link" href="${url}" target="_blank"><svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>${f.length>22?f.slice(0,10)+'…'+f.slice(-8):f}</a>`;
+    return `<a class="doc-link" href="${url}" target="_blank"><svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>Ver doc.</a>`;
   }
-  function emptyState(msg) { return `<div class="empty-state"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>${msg}</div>`; }
 
-  // ---- Renders ----
+  // ── Renders ──
   function renderVehicle(v) {
     document.getElementById('vehicle-title').textContent = `${v.year_manufacture}/${v.year_model} ${v.make} ${v.model}`;
-    document.getElementById('vehicle-subtitle').textContent = `${v.color} · Chassi ${v.chassis}`;
+    document.getElementById('vehicle-subtitle').textContent = `${v.color} · ${v.chassis}`;
     document.getElementById('header-plate').textContent = v.plate||'—';
-    const fields = [['Marca',v.make],['Modelo',v.model],['Ano fab./mod.',`${v.year_manufacture}/${v.year_model}`],['Cor',v.color],['Placa',v.plate,true],['Renavam',v.renavam,true],['Chassi',v.chassis,true],['Km atual',v.mileage_current!=null?fmt.km(v.mileage_current):'Não registrado']];
-    document.getElementById('vehicle-info').innerHTML = fields.map(([l,val,mono])=>`<div class="info-item"><div class="info-label">${l}</div><div class="info-value${mono?' mono':''}">${val||'—'}</div></div>`).join('');
+    const fields = [['Marca',v.make],['Modelo',v.model],['Ano',`${v.year_manufacture}/${v.year_model}`],['Cor',v.color],['Placa',v.plate,true],['Renavam',v.renavam,true],['Chassi',v.chassis,true],['Km atual',v.mileage_current!=null?fmt.km(v.mileage_current):'Não registrado']];
+    document.getElementById('vehicle-info').innerHTML = fields.map(([l,val,mono])=>`<div><div class="info-label">${l}</div><div class="info-value${mono?' mono':''}">${val||'—'}</div></div>`).join('');
   }
 
   function renderKPIs(entries) {
-    const s = [...entries].sort((a,b)=>(b.date||'').localeCompare(a.date||''));
-    const oil = s.find(e=>e.type==='oil_change');
-    document.getElementById('kpi-oil').textContent = oil?fmt.date(oil.date):'—';
-    document.getElementById('kpi-oil-km').textContent = oil&&oil.mileage?fmt.km(oil.mileage):'';
-    const rev = s.find(e=>e.type==='revision');
-    document.getElementById('kpi-revision').textContent = rev?fmt.date(rev.date):'—';
-    document.getElementById('kpi-revision-km').textContent = rev&&rev.mileage?fmt.km(rev.mileage):'';
-    document.getElementById('kpi-total').textContent = entries.length;
-    const withKm = s.find(e=>e.mileage!=null);
-    document.getElementById('kpi-last-km').textContent = withKm?fmt.km(withKm.mileage):'—';
-    document.getElementById('kpi-last-km-date').textContent = withKm?fmt.relDate(withKm.date):'';
+    const s=[...entries].sort((a,b)=>(b.date||'').localeCompare(a.date||''));
+    const oil=s.find(e=>e.type==='oil_change');
+    document.getElementById('kpi-oil').textContent=oil?fmt.date(oil.date):'—';
+    document.getElementById('kpi-oil-km').textContent=oil&&oil.mileage?fmt.km(oil.mileage):'';
+    const rev=s.find(e=>e.type==='revision');
+    document.getElementById('kpi-revision').textContent=rev?fmt.date(rev.date):'—';
+    document.getElementById('kpi-revision-km').textContent=rev&&rev.mileage?fmt.km(rev.mileage):'';
+    document.getElementById('kpi-total').textContent=entries.length;
+    const withKm=s.find(e=>e.mileage!=null);
+    document.getElementById('kpi-last-km').textContent=withKm?fmt.km(withKm.mileage):'—';
+    document.getElementById('kpi-last-km-date').textContent=withKm?fmt.relDate(withKm.date):'';
   }
 
   function renderAlerts(entries) {
-    const alerts = [];
-    const s = [...entries].sort((a,b)=>(b.date||'').localeCompare(a.date||''));
-    const oil = s.find(e=>e.type==='oil_change');
-    if (oil&&oil.date) { const d=Math.floor((Date.now()-new Date(oil.date))/86400000); if(d>=300) alerts.push({level:'high',title:'Troca de óleo vencida',desc:`Última troca há ${d} dias`}); else if(d>=240) alerts.push({level:'medium',title:'Troca de óleo próxima',desc:`Última troca há ${d} dias`}); }
-    const rev = s.find(e=>e.type==='revision');
-    if (rev&&rev.date) { const d=Math.floor((Date.now()-new Date(rev.date))/86400000); if(d>=365) alerts.push({level:'high',title:'Revisão anual vencida',desc:`Última revisão há ${d} dias`}); else if(d>=300) alerts.push({level:'medium',title:'Revisão anual próxima',desc:`Última revisão há ${d} dias`}); }
-    if (!alerts.length) return;
+    const alerts=[];
+    const s=[...entries].sort((a,b)=>(b.date||'').localeCompare(a.date||''));
+    const oil=s.find(e=>e.type==='oil_change');
+    if(oil&&oil.date){const d=Math.floor((Date.now()-new Date(oil.date))/86400000);if(d>=300)alerts.push({level:'high',title:'Troca de óleo vencida',desc:`Última há ${d} dias`});else if(d>=240)alerts.push({level:'medium',title:'Troca de óleo próxima',desc:`Última há ${d} dias`});}
+    const rev=s.find(e=>e.type==='revision');
+    if(rev&&rev.date){const d=Math.floor((Date.now()-new Date(rev.date))/86400000);if(d>=365)alerts.push({level:'high',title:'Revisão anual vencida',desc:`Última há ${d} dias`});else if(d>=300)alerts.push({level:'medium',title:'Revisão anual próxima',desc:`Última há ${d} dias`});}
+    if(!alerts.length)return;
     document.getElementById('alerts-section').style.display='';
-    document.getElementById('alerts-list').innerHTML = alerts.map(a=>`<div class="alert-item ${a.level}"><div class="alert-dot"></div><div class="alert-body"><div class="alert-title">${a.title}</div><div class="alert-desc">${a.desc}</div></div>${urgencyBadge(a.level)}</div>`).join('');
+    document.getElementById('alerts-list').innerHTML=alerts.map(a=>`<div class="alert-item ${a.level}"><div class="alert-dot"></div><div class="alert-body"><div class="alert-title">${a.title}</div><div class="alert-desc">${a.desc}</div></div>${urgencyBadge(a.level)}</div>`).join('');
   }
 
-  function renderMaintenance(entries) {
+  // ── Mobile cards ──
+  function renderCards(entries) {
+    const container = document.getElementById('history-cards');
+    if (!entries||!entries.length) {
+      container.innerHTML = `<div class="card">${emptyState('Nenhum registro. Adicione pelo app mobile.')}</div>`;
+      return;
+    }
+    const sorted = [...entries].sort((a,b)=>(b.date||'').localeCompare(a.date||''));
+    container.innerHTML = sorted.map((e,i) => {
+      const allTags = [...(e.services||[]), ...(e.parts||[])];
+      const hasDetails = allTags.length || e.cost_labor || e.cost_parts || e.cost_total || e.notes || e.document_file;
+      return `
+      <div class="hcard type-${e.type}">
+        <div class="hcard-top">
+          <div class="hcard-left">
+            <div class="hcard-date">${fmt.date(e.date)} &nbsp;${typeBadge(e.type)}</div>
+            <div class="hcard-shop">${e.shop||'Oficina não informada'}</div>
+          </div>
+          <div class="hcard-right">
+            <div class="hcard-total">${e.cost_total ? fmt.brl(e.cost_total) : '—'}</div>
+            <div class="hcard-km">${fmt.km(e.mileage)}</div>
+          </div>
+        </div>
+        ${allTags.length ? `<div class="hcard-tags">${allTags.slice(0,4).map(t=>`<span class="tag">${t}</span>`).join('')}${allTags.length>4?`<span class="tag">+${allTags.length-4}</span>`:''}</div>` : ''}
+        ${hasDetails ? `
+        <div class="hcard-toggle" id="toggle-${i}" onclick="toggleCard(${i})">
+          <span>Ver detalhes</span>
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+        </div>
+        <div class="hcard-details" id="details-${i}">
+          ${e.services&&e.services.length ? `<div class="detail-row"><div class="detail-label">Serviços</div><div class="detail-value">${e.services.join(' · ')}</div></div>` : ''}
+          ${e.parts&&e.parts.length ? `<div class="detail-row"><div class="detail-label">Peças</div><div class="detail-value">${e.parts.join(' · ')}</div></div>` : ''}
+          ${(e.cost_labor||e.cost_parts||e.cost_total) ? `
+          <div class="costs-row">
+            <div class="cost-item"><div class="cost-label">Mão de obra</div><div class="cost-val">${fmt.brl(e.cost_labor)}</div></div>
+            <div class="cost-item"><div class="cost-label">Peças</div><div class="cost-val">${fmt.brl(e.cost_parts)}</div></div>
+            <div class="cost-item"><div class="cost-label">Total</div><div class="cost-val" style="color:var(--text)">${fmt.brl(e.cost_total)}</div></div>
+          </div>` : ''}
+          ${e.notes ? `<div class="detail-row"><div class="detail-label">Observações</div><div class="detail-value" style="color:var(--muted)">${e.notes}</div></div>` : ''}
+          ${e.document_file ? `<div>${docLink(e.document_file)}</div>` : ''}
+        </div>` : ''}
+      </div>`;
+    }).join('');
+  }
+
+  function toggleCard(i) {
+    const toggle  = document.getElementById(`toggle-${i}`);
+    const details = document.getElementById(`details-${i}`);
+    const open = details.classList.toggle('open');
+    toggle.classList.toggle('open', open);
+    toggle.querySelector('span').textContent = open ? 'Ocultar detalhes' : 'Ver detalhes';
+  }
+
+  // ── Desktop table ──
+  function renderTable(entries) {
     const tbody = document.getElementById('maintenance-body');
-    if (!entries||!entries.length) { tbody.innerHTML=`<tr><td colspan="10">${emptyState('Nenhum registro. Adicione pelo formulário mobile ou pelo terminal.')}</td></tr>`; return; }
-    const s = [...entries].sort((a,b)=>(b.date||'').localeCompare(a.date||''));
-    tbody.innerHTML = s.map(e=>`<tr>
+    if (!entries||!entries.length) {
+      tbody.innerHTML = `<tr><td colspan="10">${emptyState('Nenhum registro.')}</td></tr>`;
+      return;
+    }
+    const sorted = [...entries].sort((a,b)=>(b.date||'').localeCompare(a.date||''));
+    tbody.innerHTML = sorted.map(e=>`<tr>
       <td style="white-space:nowrap">${fmt.date(e.date)}</td>
       <td>${typeBadge(e.type)}</td>
-      <td>${tagList(e.services)}</td>
-      <td>${tagList(e.parts)}</td>
+      <td>${tagListHtml(e.services)}</td>
+      <td>${tagListHtml(e.parts)}</td>
       <td style="font-size:12px;color:var(--muted)">${e.shop||'—'}</td>
       <td style="font-size:12px;white-space:nowrap">${fmt.km(e.mileage)}</td>
       <td class="cost-cell">${fmt.brl(e.cost_labor)}</td>
       <td class="cost-cell">${fmt.brl(e.cost_parts)}</td>
-      <td class="cost-cell" style="color:var(--text);font-weight:600">${fmt.brl(e.cost_total)}</td>
+      <td class="cost-cell" style="font-weight:600">${fmt.brl(e.cost_total)}</td>
       <td>${docLink(e.document_file)}</td>
     </tr>`).join('');
   }
 
-  // ---- Init ----
+  function emptyState(msg) { return `<div class="empty-state"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>${msg}</div>`; }
+
+  // ── Init ──
   async function init() {
     const token = getToken();
     if (!token) { document.getElementById('token-modal').classList.remove('hidden'); document.getElementById('loading').classList.add('hidden'); return; }
     document.getElementById('token-modal').classList.add('hidden');
-    const loading = document.getElementById('loading');
-    const errorBanner = document.getElementById('error-banner');
     try {
-      const maintenance = await loadJSON('data/maintenance.json');
-      renderVehicle(maintenance.vehicle);
-      renderKPIs(maintenance.entries||[]);
-      renderAlerts(maintenance.entries||[]);
-      renderMaintenance(maintenance.entries||[]);
+      const m = await loadJSON('data/maintenance.json');
+      renderVehicle(m.vehicle);
+      renderKPIs(m.entries||[]);
+      renderAlerts(m.entries||[]);
+      renderCards(m.entries||[]);
+      renderTable(m.entries||[]);
     } catch(err) {
-      errorBanner.style.display='block';
-      errorBanner.textContent = `Erro ao carregar dados: ${err.message}. Verifique se o token está correto.`;
+      const b = document.getElementById('error-banner');
+      b.style.display='block';
+      b.textContent=`Erro: ${err.message}. Verifique o token.`;
     } finally {
-      loading.classList.add('hidden');
-      setTimeout(()=>loading.remove(),400);
+      const l = document.getElementById('loading');
+      l.classList.add('hidden');
+      setTimeout(()=>l.remove(), 400);
     }
   }
 
-  // Enter key on token input
   document.getElementById('token-input').addEventListener('keydown', e => { if(e.key==='Enter') saveToken(); });
-
-  // Show modal if no token, else init
-  if (!getToken()) {
-    document.getElementById('loading').classList.add('hidden');
-  } else {
-    init();
-  }
+  if (!getToken()) { document.getElementById('loading').classList.add('hidden'); }
+  else { init(); }
 </script>
 </body>
 </html>

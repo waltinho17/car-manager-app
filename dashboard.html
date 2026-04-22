@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Gerenciador de manutenção</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --bg: #0d0f14; --surface: #141720; --surface2: #1c2030;
+      --border: #262d3f; --accent: #3b82f6; --accent2: #60a5fa;
+      --green: #22c55e; --yellow: #eab308; --red: #ef4444;
+      --text: #e2e8f0; --muted: #64748b; --mono: 'Courier New', monospace;
+    }
+    html { scroll-behavior: smooth; }
+    body { background: var(--bg); color: var(--text); font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif; font-size: 14px; line-height: 1.6; min-height: 100vh; }
+    .shell { max-width: 1280px; margin: 0 auto; padding: 0 24px 48px; }
+    header { border-bottom: 1px solid var(--border); padding: 20px 0 16px; display: flex; align-items: center; justify-content: space-between; gap: 16px; flex-wrap: wrap; }
+    .header-brand { display: flex; align-items: center; gap: 12px; }
+    .header-icon { width: 36px; height: 36px; background: var(--accent); border-radius: 8px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+    .header-icon svg { width: 20px; height: 20px; fill: #fff; }
+    .header-title { font-size: 18px; font-weight: 600; letter-spacing: -0.3px; }
+    .header-subtitle { font-size: 12px; color: var(--muted); margin-top: 1px; }
+    .header-plate { font-family: var(--mono); font-size: 13px; background: var(--surface2); border: 1px solid var(--border); border-radius: 6px; padding: 4px 10px; letter-spacing: 1px; color: var(--accent2); }
+    .section { margin-top: 36px; }
+    .section-title { font-size: 11px; font-weight: 600; letter-spacing: 1px; text-transform: uppercase; color: var(--muted); margin-bottom: 14px; display: flex; align-items: center; gap: 8px; }
+    .section-title::after { content: ''; flex: 1; height: 1px; background: var(--border); }
+    .card { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 20px; }
+    .kpi-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 12px; }
+    .kpi { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 16px 18px; position: relative; overflow: hidden; }
+    .kpi::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px; background: var(--accent); border-radius: 10px 10px 0 0; }
+    .kpi-label { font-size: 11px; color: var(--muted); text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 6px; }
+    .kpi-value { font-size: 22px; font-weight: 700; line-height: 1.1; color: var(--text); }
+    .kpi-sub { font-size: 11px; color: var(--muted); margin-top: 4px; }
+    .info-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 12px 20px; }
+    .info-label { font-size: 11px; color: var(--muted); text-transform: uppercase; letter-spacing: 0.4px; margin-bottom: 2px; }
+    .info-value { font-size: 14px; color: var(--text); }
+    .info-value.mono { font-family: var(--mono); font-size: 13px; color: var(--accent2); }
+    .alerts-list { display: flex; flex-direction: column; gap: 10px; }
+    .alert-item { display: flex; align-items: flex-start; gap: 12px; padding: 14px 16px; border-radius: 8px; border: 1px solid; }
+    .alert-item.high   { background: rgba(239,68,68,0.06);  border-color: rgba(239,68,68,0.25); }
+    .alert-item.medium { background: rgba(234,179,8,0.06);  border-color: rgba(234,179,8,0.25); }
+    .alert-item.low    { background: rgba(34,197,94,0.06);  border-color: rgba(34,197,94,0.25); }
+    .alert-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; margin-top: 5px; }
+    .alert-item.high   .alert-dot { background: var(--red); }
+    .alert-item.medium .alert-dot { background: var(--yellow); }
+    .alert-item.low    .alert-dot { background: var(--green); }
+    .alert-body { flex: 1; }
+    .alert-title { font-weight: 600; font-size: 13px; }
+    .alert-desc  { font-size: 12px; color: var(--muted); margin-top: 2px; }
+    .badge-urgency { font-size: 10px; font-weight: 600; padding: 2px 8px; border-radius: 999px; text-transform: uppercase; letter-spacing: 0.5px; flex-shrink: 0; }
+    .badge-urgency.high   { background: rgba(239,68,68,0.15);  color: var(--red); }
+    .badge-urgency.medium { background: rgba(234,179,8,0.15);  color: var(--yellow); }
+    .badge-urgency.low    { background: rgba(34,197,94,0.15);  color: var(--green); }
+    .table-wrap { overflow-x: auto; }
+    table { width: 100%; border-collapse: collapse; font-size: 13px; }
+    th { text-align: left; padding: 10px 12px; font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; color: var(--muted); border-bottom: 1px solid var(--border); white-space: nowrap; }
+    td { padding: 11px 12px; border-bottom: 1px solid var(--border); vertical-align: top; }
+    tr:last-child td { border-bottom: none; }
+    tr:hover td { background: var(--surface2); }
+    .badge-type { display: inline-block; font-size: 10px; font-weight: 600; padding: 2px 8px; border-radius: 999px; letter-spacing: 0.3px; white-space: nowrap; }
+    .type-oil_change  { background: rgba(59,130,246,0.15); color: #60a5fa; }
+    .type-revision    { background: rgba(139,92,246,0.15); color: #a78bfa; }
+    .type-repair      { background: rgba(234,179,8,0.15);  color: #fbbf24; }
+    .type-tire        { background: rgba(34,197,94,0.15);  color: #4ade80; }
+    .type-brake       { background: rgba(239,68,68,0.15);  color: #f87171; }
+    .type-other       { background: rgba(100,116,139,0.15);color: #94a3b8; }
+    .doc-link { color: var(--accent2); text-decoration: none; font-size: 12px; display: inline-flex; align-items: center; gap: 4px; }
+    .doc-link:hover { text-decoration: underline; }
+    .doc-link svg { width: 12px; height: 12px; stroke: currentColor; fill: none; stroke-width: 2; flex-shrink: 0; }
+    .cost-cell { text-align: right; font-variant-numeric: tabular-nums; font-family: var(--mono); font-size: 12px; }
+    .tag-list { display: flex; flex-wrap: wrap; gap: 4px; }
+    .tag { font-size: 11px; padding: 2px 7px; background: var(--surface2); border: 1px solid var(--border); border-radius: 4px; color: var(--muted); }
+    .empty-state { text-align: center; padding: 32px; color: var(--muted); font-size: 13px; }
+    .empty-state svg { width: 40px; height: 40px; stroke: var(--border); fill: none; stroke-width: 1.5; margin: 0 auto 12px; display: block; }
+    #loading { position: fixed; inset: 0; background: var(--bg); display: flex; align-items: center; justify-content: center; flex-direction: column; gap: 12px; z-index: 100; transition: opacity 0.3s; }
+    #loading.hidden { opacity: 0; pointer-events: none; }
+    .spinner { width: 32px; height: 32px; border: 3px solid var(--border); border-top-color: var(--accent); border-radius: 50%; animation: spin 0.8s linear infinite; }
+    @keyframes spin { to { transform: rotate(360deg); } }
+    #error-banner { display: none; background: rgba(239,68,68,0.1); border: 1px solid rgba(239,68,68,0.3); color: var(--red); padding: 12px 16px; border-radius: 8px; margin-top: 20px; font-size: 13px; }
+    ::-webkit-scrollbar { width: 6px; height: 6px; }
+    ::-webkit-scrollbar-track { background: transparent; }
+    ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
+    /* Token modal */
+    #token-modal { position: fixed; inset: 0; background: rgba(0,0,0,0.8); display: flex; align-items: center; justify-content: center; z-index: 200; padding: 20px; }
+    #token-modal.hidden { display: none; }
+    .modal-box { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 28px; width: 100%; max-width: 420px; }
+    .modal-title { font-size: 16px; font-weight: 600; margin-bottom: 8px; }
+    .modal-desc { font-size: 13px; color: var(--muted); margin-bottom: 20px; line-height: 1.5; }
+    .modal-input { width: 100%; background: var(--surface2); border: 1px solid var(--border); border-radius: 8px; padding: 10px 12px; color: var(--text); font-family: var(--mono); font-size: 13px; outline: none; }
+    .modal-input:focus { border-color: var(--accent); }
+    .modal-btn { margin-top: 14px; width: 100%; background: var(--accent); color: #fff; border: none; border-radius: 8px; padding: 11px; font-size: 14px; font-weight: 600; cursor: pointer; }
+    .modal-btn:hover { background: var(--accent2); }
+    .header-actions { display: flex; align-items: center; gap: 10px; }
+    .btn-reset-token { font-size: 11px; color: var(--muted); background: none; border: 1px solid var(--border); border-radius: 6px; padding: 4px 10px; cursor: pointer; }
+    .btn-reset-token:hover { color: var(--text); border-color: var(--muted); }
+  </style>
+</head>
+<body>
+
+<!-- Token modal -->
+<div id="token-modal">
+  <div class="modal-box">
+    <div class="modal-title">Configurar acesso</div>
+    <div class="modal-desc">Cole seu GitHub Personal Access Token para carregar os dados do veículo. Ele é salvo localmente no seu browser e nunca é enviado a terceiros.</div>
+    <input id="token-input" class="modal-input" type="password" placeholder="ghp_..." />
+    <button class="modal-btn" onclick="saveToken()">Salvar e entrar</button>
+  </div>
+</div>
+
+<div id="loading">
+  <div class="spinner"></div>
+  <span style="color:var(--muted);font-size:13px;">Carregando dados...</span>
+</div>
+
+<div class="shell">
+  <header>
+    <div class="header-brand">
+      <div class="header-icon">
+        <svg viewBox="0 0 24 24"><path d="M5 11L6.5 6.5C6.78 5.6 7.6 5 8.54 5h6.92c.94 0 1.76.6 2.04 1.5L19 11M3 11h18v4a1 1 0 01-1 1h-1a2 2 0 01-4 0H9a2 2 0 01-4 0H4a1 1 0 01-1-1v-4zM7.5 15.5a.5.5 0 110-1 .5.5 0 010 1zm9 0a.5.5 0 110-1 .5.5 0 010 1z"/></svg>
+      </div>
+      <div>
+        <div class="header-title" id="vehicle-title">Carregando...</div>
+        <div class="header-subtitle" id="vehicle-subtitle"></div>
+      </div>
+    </div>
+    <div class="header-actions">
+      <div class="header-plate" id="header-plate">—</div>
+      <button class="btn-reset-token" onclick="resetToken()">Trocar token</button>
+    </div>
+  </header>
+
+  <div id="error-banner"></div>
+
+  <div class="section">
+    <div class="section-title">Indicadores</div>
+    <div class="kpi-grid">
+      <div class="kpi"><div class="kpi-label">Última troca de óleo</div><div class="kpi-value" id="kpi-oil">—</div><div class="kpi-sub" id="kpi-oil-km"></div></div>
+      <div class="kpi"><div class="kpi-label">Última revisão</div><div class="kpi-value" id="kpi-revision">—</div><div class="kpi-sub" id="kpi-revision-km"></div></div>
+      <div class="kpi"><div class="kpi-label">Total de registros</div><div class="kpi-value" id="kpi-total">0</div><div class="kpi-sub">manutenções cadastradas</div></div>
+      <div class="kpi"><div class="kpi-label">Km atual</div><div class="kpi-value" id="kpi-last-km">—</div><div class="kpi-sub" id="kpi-last-km-date"></div></div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Dados do veículo</div>
+    <div class="card"><div class="info-grid" id="vehicle-info"></div></div>
+  </div>
+
+  <div class="section" id="alerts-section" style="display:none">
+    <div class="section-title">Alertas de manutenção</div>
+    <div class="alerts-list" id="alerts-list"></div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Histórico de manutenção</div>
+    <div class="card">
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>Data</th><th>Tipo</th><th>Serviços</th><th>Peças</th>
+              <th>Oficina</th><th>Km</th>
+              <th style="text-align:right">M.O.</th>
+              <th style="text-align:right">Peças</th>
+              <th style="text-align:right">Total</th>
+              <th>Documento</th>
+            </tr>
+          </thead>
+          <tbody id="maintenance-body"></tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  const REPO     = 'waltinho17/car-manager';
+  const GH_API   = 'https://api.github.com';
+  const TOKEN_KEY = 'car_manager_token';
+
+  // ---- Token management ----
+  function getToken() { return localStorage.getItem(TOKEN_KEY); }
+  function saveToken() {
+    const t = document.getElementById('token-input').value.trim();
+    if (!t) return;
+    localStorage.setItem(TOKEN_KEY, t);
+    document.getElementById('token-modal').classList.add('hidden');
+    init();
+  }
+  function resetToken() {
+    localStorage.removeItem(TOKEN_KEY);
+    location.reload();
+  }
+
+  // ---- GitHub API ----
+  async function ghFetch(path, opts = {}) {
+    const token = getToken();
+    const res = await fetch(`${GH_API}/repos/${REPO}/contents/${path}`, {
+      ...opts,
+      headers: { 'Authorization': `token ${token}`, 'Accept': 'application/vnd.github.v3+json', ...(opts.headers || {}) }
+    });
+    return res;
+  }
+
+  async function loadJSON(path) {
+    const res = await ghFetch(path);
+    if (!res.ok) throw new Error(`${res.status} ao carregar ${path}`);
+    const d = await res.json();
+    return JSON.parse(atob(d.content.replace(/\n/g, '')));
+  }
+
+  // ---- Formatters ----
+  const fmt = {
+    date(d) { if (!d) return '—'; const [y,m,day] = d.split('-'); return `${day}/${m}/${y}`; },
+    km(v)   { if (v == null) return '—'; return Number(v).toLocaleString('pt-BR') + ' km'; },
+    brl(v)  { if (v == null) return '—'; return Number(v).toLocaleString('pt-BR', {style:'currency',currency:'BRL'}); },
+    relDate(d) { if (!d) return ''; const diff = Math.floor((Date.now()-new Date(d))/86400000); if (diff===0) return 'hoje'; if (diff===1) return 'ontem'; if (diff<30) return `há ${diff} dias`; if (diff<365) return `há ${Math.floor(diff/30)} meses`; return `há ${Math.floor(diff/365)} ano(s)`; }
+  };
+  const TYPE_LABELS = { oil_change:'Troca de óleo', revision:'Revisão', repair:'Reparo', tire:'Pneus', brake:'Freios', other:'Outro' };
+  function typeBadge(t) { return `<span class="badge-type type-${t}">${TYPE_LABELS[t]||t}</span>`; }
+  function urgencyBadge(u) { const l={low:'Baixa',medium:'Média',high:'Alta'}; return `<span class="badge-urgency ${u}">${l[u]||u}</span>`; }
+  function tagList(items) { if(!items||!items.length) return '<span style="color:var(--muted);font-size:12px">—</span>'; return `<div class="tag-list">${items.map(i=>`<span class="tag">${i}</span>`).join('')}</div>`; }
+  function docLink(f) {
+    if (!f) return '—';
+    const url = `https://raw.githubusercontent.com/${REPO}/main/documents/${encodeURIComponent(f)}`;
+    return `<a class="doc-link" href="${url}" target="_blank"><svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>${f.length>22?f.slice(0,10)+'…'+f.slice(-8):f}</a>`;
+  }
+  function emptyState(msg) { return `<div class="empty-state"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>${msg}</div>`; }
+
+  // ---- Renders ----
+  function renderVehicle(v) {
+    document.getElementById('vehicle-title').textContent = `${v.year_manufacture}/${v.year_model} ${v.make} ${v.model}`;
+    document.getElementById('vehicle-subtitle').textContent = `${v.color} · Chassi ${v.chassis}`;
+    document.getElementById('header-plate').textContent = v.plate||'—';
+    const fields = [['Marca',v.make],['Modelo',v.model],['Ano fab./mod.',`${v.year_manufacture}/${v.year_model}`],['Cor',v.color],['Placa',v.plate,true],['Renavam',v.renavam,true],['Chassi',v.chassis,true],['Km atual',v.mileage_current!=null?fmt.km(v.mileage_current):'Não registrado']];
+    document.getElementById('vehicle-info').innerHTML = fields.map(([l,val,mono])=>`<div class="info-item"><div class="info-label">${l}</div><div class="info-value${mono?' mono':''}">${val||'—'}</div></div>`).join('');
+  }
+
+  function renderKPIs(entries) {
+    const s = [...entries].sort((a,b)=>(b.date||'').localeCompare(a.date||''));
+    const oil = s.find(e=>e.type==='oil_change');
+    document.getElementById('kpi-oil').textContent = oil?fmt.date(oil.date):'—';
+    document.getElementById('kpi-oil-km').textContent = oil&&oil.mileage?fmt.km(oil.mileage):'';
+    const rev = s.find(e=>e.type==='revision');
+    document.getElementById('kpi-revision').textContent = rev?fmt.date(rev.date):'—';
+    document.getElementById('kpi-revision-km').textContent = rev&&rev.mileage?fmt.km(rev.mileage):'';
+    document.getElementById('kpi-total').textContent = entries.length;
+    const withKm = s.find(e=>e.mileage!=null);
+    document.getElementById('kpi-last-km').textContent = withKm?fmt.km(withKm.mileage):'—';
+    document.getElementById('kpi-last-km-date').textContent = withKm?fmt.relDate(withKm.date):'';
+  }
+
+  function renderAlerts(entries) {
+    const alerts = [];
+    const s = [...entries].sort((a,b)=>(b.date||'').localeCompare(a.date||''));
+    const oil = s.find(e=>e.type==='oil_change');
+    if (oil&&oil.date) { const d=Math.floor((Date.now()-new Date(oil.date))/86400000); if(d>=300) alerts.push({level:'high',title:'Troca de óleo vencida',desc:`Última troca há ${d} dias`}); else if(d>=240) alerts.push({level:'medium',title:'Troca de óleo próxima',desc:`Última troca há ${d} dias`}); }
+    const rev = s.find(e=>e.type==='revision');
+    if (rev&&rev.date) { const d=Math.floor((Date.now()-new Date(rev.date))/86400000); if(d>=365) alerts.push({level:'high',title:'Revisão anual vencida',desc:`Última revisão há ${d} dias`}); else if(d>=300) alerts.push({level:'medium',title:'Revisão anual próxima',desc:`Última revisão há ${d} dias`}); }
+    if (!alerts.length) return;
+    document.getElementById('alerts-section').style.display='';
+    document.getElementById('alerts-list').innerHTML = alerts.map(a=>`<div class="alert-item ${a.level}"><div class="alert-dot"></div><div class="alert-body"><div class="alert-title">${a.title}</div><div class="alert-desc">${a.desc}</div></div>${urgencyBadge(a.level)}</div>`).join('');
+  }
+
+  function renderMaintenance(entries) {
+    const tbody = document.getElementById('maintenance-body');
+    if (!entries||!entries.length) { tbody.innerHTML=`<tr><td colspan="10">${emptyState('Nenhum registro. Adicione pelo formulário mobile ou pelo terminal.')}</td></tr>`; return; }
+    const s = [...entries].sort((a,b)=>(b.date||'').localeCompare(a.date||''));
+    tbody.innerHTML = s.map(e=>`<tr>
+      <td style="white-space:nowrap">${fmt.date(e.date)}</td>
+      <td>${typeBadge(e.type)}</td>
+      <td>${tagList(e.services)}</td>
+      <td>${tagList(e.parts)}</td>
+      <td style="font-size:12px;color:var(--muted)">${e.shop||'—'}</td>
+      <td style="font-size:12px;white-space:nowrap">${fmt.km(e.mileage)}</td>
+      <td class="cost-cell">${fmt.brl(e.cost_labor)}</td>
+      <td class="cost-cell">${fmt.brl(e.cost_parts)}</td>
+      <td class="cost-cell" style="color:var(--text);font-weight:600">${fmt.brl(e.cost_total)}</td>
+      <td>${docLink(e.document_file)}</td>
+    </tr>`).join('');
+  }
+
+  // ---- Init ----
+  async function init() {
+    const token = getToken();
+    if (!token) { document.getElementById('token-modal').classList.remove('hidden'); document.getElementById('loading').classList.add('hidden'); return; }
+    document.getElementById('token-modal').classList.add('hidden');
+    const loading = document.getElementById('loading');
+    const errorBanner = document.getElementById('error-banner');
+    try {
+      const maintenance = await loadJSON('data/maintenance.json');
+      renderVehicle(maintenance.vehicle);
+      renderKPIs(maintenance.entries||[]);
+      renderAlerts(maintenance.entries||[]);
+      renderMaintenance(maintenance.entries||[]);
+    } catch(err) {
+      errorBanner.style.display='block';
+      errorBanner.textContent = `Erro ao carregar dados: ${err.message}. Verifique se o token está correto.`;
+    } finally {
+      loading.classList.add('hidden');
+      setTimeout(()=>loading.remove(),400);
+    }
+  }
+
+  // Enter key on token input
+  document.getElementById('token-input').addEventListener('keydown', e => { if(e.key==='Enter') saveToken(); });
+
+  // Show modal if no token, else init
+  if (!getToken()) {
+    document.getElementById('loading').classList.add('hidden');
+  } else {
+    init();
+  }
+</script>
+</body>
+</html>

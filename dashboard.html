@@ -328,7 +328,7 @@
     });
     if (!res.ok) throw new Error(`${res.status} ao carregar ${path}`);
     const d = await res.json();
-    return JSON.parse(atob(d.content.replace(/\n/g, '')));
+    return JSON.parse(decodeURIComponent(escape(atob(d.content.replace(/\n/g, '')))));
   }
 
   // ── Formatters ──
